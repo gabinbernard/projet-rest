@@ -1,0 +1,22 @@
+{
+  "name": "projetrest",
+  "version": "1.0.0",
+  "description": "Bonjour :)",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "server:dev": "node src/server/index.js",
+    "server:start": "node src/server/index.js",
+    "client:dev": "node src/client/index.js",
+    "client:start": "node src/client/index.js",
+    "sqlite": "./sqlite/sqlite3 ./chinook.db"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^11.5.0",
+    "express": "^4.21.1",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
