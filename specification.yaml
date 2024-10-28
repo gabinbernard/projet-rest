@@ -1,0 +1,251 @@
+openapi: 3.0.0
+
+info:
+  title: Awesome Music API
+  description: An awesome API to explore awesome tracks made by awesome artists. AWESOME!!!!!
+  version: 1.2.3
+
+servers:
+  - url: localhost:3000
+    description: Local development server
+
+paths:
+
+  "/":
+    get:
+      summary: Returns information about the API
+      responses:
+        '200':
+          description: The information about the API is successfully returned
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api'
+
+  "/tracks/":
+    get:
+      tags: [ "Tracks" ]
+      summary: "Get all tracks"
+      responses:
+        200:
+          description: "All tracks have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+  "/tracks/{id}/":
+    get:
+    put:
+    delete:
+  "/tracks/{id}/album/":
+    get:
+  "/tracks/{id}/media-type/":
+    get:
+  "/tracks/{id}/genre/":
+    get:
+  "/tracks/{id}/playlists/":
+    get:
+
+  "/albums/":
+    get:
+      tags: [ "Albums" ]
+      summary: "Get all albums"
+      responses:
+        200:
+          description: "All albums have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+  "/albums/{id}":
+    get:
+    put:
+    delete:
+  "/albums/{id}/artist/":
+    get:
+  "/albums/{id}/tracks/":
+    get:
+
+
+  "/artists/":
+    get:
+      tags: [ "Artists" ]
+      summary: "Get all artists"
+      responses:
+        200:
+          description: "All artists have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+  "/artists/{id}/":
+    get:
+    put:
+    delete:
+  "/artists/{id}/albums/":
+    get:
+
+  "/playlists/":
+    get:
+      tags: [ "Playlists" ]
+      summary: "Get all playlists"
+      responses:
+        200:
+          description: "All playlists have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+  "/playlists/{id}/":
+    get:
+    put:
+    delete:
+  "/playlists/{id}/tracks/":
+    get:
+    post:
+  "/playlists/{playlist_id}/tracks/{track_id}":
+    delete:
+
+  "/media-types/":
+    get:
+      tags: [ "Media types" ]
+      summary: "Get all media types"
+      responses:
+        200:
+          description: "All media types have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+  "/media-types/{id}/":
+    get:
+    put:
+    delete:
+  "/media-types/{id}/tracks/":
+    get:
+
+  "/genres/":
+    get:
+      tags: ["Genres"]
+      summary: "Get all genres"
+      responses:
+        200:
+          description: "All genres have been returned"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+    post:
+      tags: ["genres"]
+      summary: "Post a genre"
+      responses:
+        200:
+          description: "The genre has been posted"
+  "/genres/{id}/":
+    get:
+      description: "Get a genre by its id"
+      responses:
+        200:
+          description: "Return a genre by its id"
+        404:
+          description: "The genre with this id does not exist"
+    put:
+      responses:
+        200:
+          description: "Edit a genre"
+        404:
+          description: "The genre with this id does not exist"
+    delete:
+      responses:
+        200:
+          description: "Edit a genre"
+        404:
+          description: "The genre with this id does not exist"
+  "/genres/{id}/tracks/":
+    get:
+      responses:
+        404:
+          description: "Genre does not exist"
+
+components:
+  schemas:
+    api:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+        company_name:
+          type: string
+        company_address:
+          type: string
+        company_owner:
+          type: string
+    track:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        composer:
+          type: string
+        milliseconds:
+          type: integer
+        bytes:
+          type: integer
+    album:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    artist:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    playlist:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    media_type:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    genre:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string

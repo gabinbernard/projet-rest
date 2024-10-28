@@ -46,11 +46,19 @@ For this project, we'll only be using the following entities:
 
 ## Specification
 
-The API should include the following Entities:
+The API should expose the following information:
+- Project name
+- Project description
+- API Version
+- Company name
+- Company address
+- Company owner
+
+The API should also include the following entities and corresponding endpoints:
 
 ### Track
 
-A track must have ***an id***, ***a name***, ***an album***, ***a genre***, ***a media type***, ***a composer***, ***a length*** and ***a file size***. The API should enable the user to:
+A track must have ***an id***, ***a name***, ***an album***, ***a genre***, ***a media type***, ***a composer***, ***a length (in milliseconds)*** and ***a file size (in bytes)***. The API should enable the user to:
 - **Get** all (or n) tracks
 - **Get** a track by its id
 - **Get** the album of this track
