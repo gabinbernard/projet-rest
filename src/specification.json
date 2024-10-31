@@ -29,7 +29,7 @@
         }
       }
     },
-    "/tracks/": {
+    "/v1/tracks/": {
       "get": {
         "tags": [
           "Tracks"
@@ -47,15 +47,7 @@
         ],
         "summary": "Post a track",
         "requestBody": {
-          "description": "A track",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/track"
-              }
-            }
-          }
+          "$ref": "#/components/requestBodies/track"
         },
         "responses": {
           "200": {
@@ -67,12 +59,12 @@
         }
       }
     },
-    "/tracks/{id}/": {
+    "/v1/tracks/{id}/": {
       "get": {
         "tags": [
           "Tracks"
         ],
-        "summary": "Edit a track by it's id",
+        "summary": "Get a track",
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -98,12 +90,15 @@
         "tags": [
           "Tracks"
         ],
-        "summary": "Post a track",
+        "summary": "Edit a track",
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
           }
         ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/track"
+        },
         "responses": {
           "200": {
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
@@ -136,7 +131,7 @@
         }
       }
     },
-    "/tracks/{id}/album/": {
+    "/v1/tracks/{id}/album/": {
       "get": {
         "tags": [
           "Tracks",
@@ -163,9 +158,35 @@
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Tracks",
+          "Albums"
+        ],
+        "summary": "Set or edit a track's album",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/relation"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
       }
     },
-    "/tracks/{id}/media-type/": {
+    "/v1/tracks/{id}/media-type/": {
       "get": {
         "tags": [
           "Tracks",
@@ -192,9 +213,35 @@
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Tracks",
+          "Media Types"
+        ],
+        "summary": "Set or edit a track's media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/relation"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
       }
     },
-    "/tracks/{id}/genre/": {
+    "/v1/tracks/{id}/genre/": {
       "get": {
         "tags": [
           "Tracks",
@@ -221,9 +268,35 @@
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Tracks",
+          "Genres"
+        ],
+        "summary": "Set or edit a track's genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/relation"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
       }
     },
-    "/tracks/{id}/playlists/": {
+    "/v1/tracks/{id}/playlists/": {
       "get": {
         "tags": [
           "Tracks",
@@ -250,6 +323,583 @@
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "Tracks",
+          "Playlists"
+        ],
+        "summary": "Set or edit a track's playlist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/relation"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/albums/": {
+      "get": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Get all albums",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Post an album",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/album"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/albums/{id}": {
+      "get": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Get an album",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The album is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/album"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Edit an album",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/album"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Albums"
+        ],
+        "summary": "Delete an album",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/albums/{id}/artist/": {
+      "get": {
+        "tags": [
+          "Albums",
+          "Artists"
+        ],
+        "summary": "Get an album's artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The album's artist is returned",
+            "content": {
+              "applicaton/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/artist"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Albums",
+          "Artists"
+        ],
+        "summary": "Set or edit an album's artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/relation"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/albums/{id}/tracks/": {
+      "get": {
+        "tags": [
+          "Albums",
+          "Tracks"
+        ],
+        "summary": "Get an album's tracks",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/artists/": {
+      "get": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Get all artists",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Post an artist",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/artist"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/artists/{id}/": {
+      "get": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Get an artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The artist is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/artist"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Edit an artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/artist"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Artists"
+        ],
+        "summary": "Delete an artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/artists/{id}/albums/": {
+      "get": {
+        "tags": [
+          "Artists",
+          "Albums"
+        ],
+        "summary": "Get all albums made by an artist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/media-types/": {
+      "get": {
+        "tags": [
+          "Media Types"
+        ],
+        "summary": "Get all media types",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Media Types"
+        ],
+        "summary": "Post a media type",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/media_type"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/media-types/{id}/": {
+      "get": {
+        "tags": [
+          "Media Types"
+        ],
+        "summary": "Get a media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The media type is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/media_type"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Media Types"
+        ],
+        "summary": "Edit a media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/media_type"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Media Types"
+        ],
+        "summary": "Delete a media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/media-types/{id}/tracks/": {
+      "get": {
+        "tags": [
+          "Media Types",
+          "Tracks"
+        ],
+        "summary": "Get all tracks having a specific media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/genres/": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Get all genres",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Post a genre",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/genre"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/genres/{id}/": {
+      "get": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Get a genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The genre is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genre"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Edit a genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/genre"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Genres"
+        ],
+        "summary": "Delete a genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/genres/{id}/tracks/": {
+      "get": {
+        "tags": [
+          "Genres",
+          "Tracks"
+        ],
+        "summary": "Get all tracks having a specific genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
       }
     }
   },
@@ -270,6 +920,9 @@
       },
       "200-SUCCESS-CREATED": {
         "description": "The resource has been created"
+      },
+      "200-SUCCESS-RELATION": {
+        "description": "The relation has been updated"
       },
       "200-SUCCESS-EDITED": {
         "description": "The resource has been edited"
@@ -293,6 +946,109 @@
         "schema": {
           "type": "integer",
           "minimum": 0
+        }
+      }
+    },
+    "requestBodies": {
+      "relation": {
+        "description": "A track",
+        "required": true,
+        "content": {
+          "application/java": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "track": {
+        "description": "A track",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/track"
+            }
+          }
+        }
+      },
+      "album": {
+        "description": "An album",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/album"
+            }
+          }
+        }
+      },
+      "artist": {
+        "description": "An artist",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/artist"
+            }
+          }
+        }
+      },
+      "playlist": {
+        "description": "A playlist",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/playlist"
+            }
+          }
+        }
+      },
+      "playlist_track": {
+        "description": "A playlist track association",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "trackId": {
+                  "type": "integer"
+                },
+                "playlistId": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
+      },
+      "media_type": {
+        "description": "A media type",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/media_type"
+            }
+          }
+        }
+      },
+      "genre": {
+        "description": "A genre",
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/genre"
+            }
+          }
         }
       }
     },
@@ -323,9 +1079,6 @@
       "track": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           },
@@ -343,9 +1096,6 @@
       "album": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           }
@@ -354,9 +1104,6 @@
       "artist": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           }
@@ -365,9 +1112,6 @@
       "playlist": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           }
@@ -376,9 +1120,6 @@
       "media_type": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           }
@@ -387,9 +1128,6 @@
       "genre": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer"
-          },
           "name": {
             "type": "string"
           }
