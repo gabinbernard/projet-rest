@@ -1,0 +1,400 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Awesome Music API",
+    "description": "An awesome API to explore awesome tracks made by awesome artists. AWESOME!!!!!",
+    "version": "1.2.3"
+  },
+  "servers": [
+    {
+      "url": "localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Returns information about the API",
+        "responses": {
+          "200": {
+            "description": "The information about the API is successfully returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/api"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/tracks/": {
+      "get": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Get all tracks",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Post a track",
+        "requestBody": {
+          "description": "A track",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/track"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The track has been created"
+          },
+          "400": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      }
+    },
+    "/tracks/{id}/": {
+      "get": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Edit a track by it's id",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The track has been edited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/track"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Post a track",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tracks"
+        ],
+        "summary": "Delete a track",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/tracks/{id}/album/": {
+      "get": {
+        "tags": [
+          "Tracks",
+          "Albums"
+        ],
+        "summary": "Get a track's ablum",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The track's album has been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/album"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/tracks/{id}/media-type/": {
+      "get": {
+        "tags": [
+          "Tracks",
+          "Media Types"
+        ],
+        "summary": "Get a track's media type",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The track's media type has been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/media_type"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/tracks/{id}/genre/": {
+      "get": {
+        "tags": [
+          "Tracks",
+          "Genres"
+        ],
+        "summary": "Get a track's genre",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The track's genre has been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/genre"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/tracks/{id}/playlists/": {
+      "get": {
+        "tags": [
+          "Tracks",
+          "Playlists"
+        ],
+        "summary": "Get a list of playlists that include this track",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The track's playlist has been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/playlist"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "200-SUCCESS-LIST": {
+        "description": "The entries are returned",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          }
+        }
+      },
+      "200-SUCCESS-CREATED": {
+        "description": "The resource has been created"
+      },
+      "200-SUCCESS-EDITED": {
+        "description": "The resource has been edited"
+      },
+      "200-SUCCESS-DELETED": {
+        "description": "The resource has been deleted"
+      },
+      "400-ERROR-WRONG-REQUEST": {
+        "description": "Wrong request"
+      },
+      "404-ERROR-NOT-FOUND": {
+        "description": "The resource has not been found"
+      }
+    },
+    "parameters": {
+      "id": {
+        "name": "id",
+        "in": "path",
+        "description": "Resource id",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "schemas": {
+      "api": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "company_name": {
+            "type": "string"
+          },
+          "company_address": {
+            "type": "string"
+          },
+          "company_owner": {
+            "type": "string"
+          }
+        }
+      },
+      "track": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "composer": {
+            "type": "string"
+          },
+          "milliseconds": {
+            "type": "integer"
+          },
+          "bytes": {
+            "type": "integer"
+          }
+        }
+      },
+      "album": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "artist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "playlist": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "media_type": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "genre": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

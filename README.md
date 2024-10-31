@@ -4,25 +4,17 @@ This is the repository for Gabin BERNARD's R5.05 REST API Project.
 
 ## Install project
 
-### Prerequisites
-
-You should have NodeJS 20 (LTS) or higher to run the project.
-
-### Installation
+Before setting up the API, you should have NodeJS 20 (LTS) or higher installed on your system. To install and run the server, run the following commands in your terminal:
 
 ```bash
-npm i                  # Install dependencies
-npm run server:start   # Run server on port 3000
-npm run client:start   # Run client on port 3001
+npm i               # Install dependencies
+npm run start       # Run server on port 3000
 ```
 
-### Install development server
+Then you can access the API and its reference using the following links
 
-```bash
-npm i                  # Install dependencies
-npm run server:dev     # Run development server on port 3000
-npm run client:dev     # Run development client on port 3001
-```
+- **API Root** - [http://localhost:3000/](http://localhost:3000/) 
+- **Swagger UI Client** - [http://localhost:3000/reference](http://localhost:3000/reference)
 
 ## Dataset
 
