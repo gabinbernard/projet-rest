@@ -65,7 +65,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-EDITED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     delete:
@@ -104,7 +104,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-RELATION"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
   "/v1/tracks/{id}/media-type/":
@@ -133,7 +133,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-RELATION"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
   "/v1/tracks/{id}/genre/":
@@ -162,7 +162,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-RELATION"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
   "/v1/tracks/{id}/playlists/":
@@ -180,33 +180,108 @@ paths:
                 $ref: "#/components/schemas/playlist"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
+
+  "/v1/playlists/":
+    get:
+      tags: [ "Playlists" ]
+      summary: "Get all playlists"
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-LIST"
+    post:
+      tags: [ "Playlists" ]
+      summary: "Post a playlist"
+      requestBody:
+        $ref: "#/components/requestBodies/playlist"
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-CREATED"
+        400:
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
+  "/v1/playlists/{id}/":
+    get:
+      tags: [ "Playlists" ]
+      summary: "Get a playlist"
+      parameters:
+      - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          description: "The playlist is returned"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/playlist"
+        404:
+          $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     put:
-      tags: [ "Tracks", "Playlists" ]
-      summary: "Set or edit a track's playlist"
+      tags: [ "Playlists" ]
+      summary: "Edit a playlist"
+      parameters:
+      - $ref: "#/components/parameters/id"
+      requestBody:
+        $ref: "#/components/requestBodies/playlist"
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-EDITED"
+        400:
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
+        404:
+          $ref: "#/components/responses/404-ERROR-NOT-FOUND"
+    delete:
+      tags: [ "Playlists" ]
+      summary: "Delete a playlist"
+      parameters:
+      - $ref: "#/components/parameters/id"
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-DELETED"
+        404:
+          $ref: "#/components/responses/404-ERROR-NOT-FOUND"
+  "/v1/playlists/{id}/tracks/":
+    get:
+      tags: [ "Playlists", "Tracks" ]
+      summary: "Get all tracks from a playlist"
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-LIST"
+    post:
+      tags: [ "Playlists", "Tracks" ]
+      summary: "Add a track to a playlist"
       parameters:
       - $ref: "#/components/parameters/id"
       requestBody:
         $ref: "#/components/requestBodies/relation"
       responses:
         200:
-          $ref: "#/components/responses/200-SUCCESS-RELATION"
+          $ref: "#/components/responses/200-SUCCESS-CREATED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
-        404:
-          $ref: "#/components/responses/404-ERROR-NOT-FOUND"
-
-  "/v1/playlists/":
-    get:
-    post:
-  "/v1/playlists/{id}/":
-    get:
-    put:
-    delete:
-  "/v1/playlists/{id}/tracks/":
-    get:
-    post:
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
   "/v1/playlists/{playlist_id}/tracks/{track_id}":
     delete:
+      tags: [ "Playlists", "Tracks" ]
+      summary: "Remove a track from a playlist"
+      parameters:
+      - playlist_id:
+        name: playlist_id
+        in: path
+        description: Playlist Id
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      - track_id:
+        name: track_id
+        in: path
+        description: Track Id
+        required: true
+        schema:
+          type: integer
+          minimum: 0
+      responses:
+        200:
+          $ref: "#/components/responses/200-SUCCESS-DELETED"
+        404:
+          $ref: "#/components/responses/404-ERROR-NOT-FOUND"
 
   "/v1/albums/":
     get:
@@ -224,7 +299,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-CREATED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
   "/v1/albums/{id}":
     get:
       tags: [ "Albums" ]
@@ -251,7 +326,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-EDITED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     delete:
@@ -290,7 +365,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-RELATION"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
   "/v1/albums/{id}/tracks/":
@@ -321,7 +396,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-CREATED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
   "/v1/artists/{id}/":
     get:
       tags: [ "Artists" ]
@@ -348,7 +423,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-EDITED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     delete:
@@ -389,7 +464,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-CREATED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
   "/v1/media-types/{id}/":
     get:
       tags: [ "Media Types" ]
@@ -416,7 +491,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-EDITED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     delete:
@@ -458,7 +533,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-CREATED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
   "/v1/genres/{id}/":
     get:
       tags: [ "Genres" ]
@@ -485,7 +560,7 @@ paths:
         200:
           $ref: "#/components/responses/200-SUCCESS-EDITED"
         400:
-          $ref: "#/components/responses/400-ERROR-WRONG-REQUEST"
+          $ref: "#/components/responses/400-ERROR-BAD-REQUEST"
         404:
           $ref: "#/components/responses/404-ERROR-NOT-FOUND"
     delete:
@@ -528,7 +603,7 @@ components:
       description: "The resource has been edited"
     200-SUCCESS-DELETED:
       description: "The resource has been deleted"
-    400-ERROR-WRONG-REQUEST:
+    400-ERROR-BAD-REQUEST:
       description: "Wrong request"
     404-ERROR-NOT-FOUND:
       description: "The resource has not been found"

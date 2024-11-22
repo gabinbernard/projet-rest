@@ -1,0 +1,253 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: API Maison des jeux de Grenoble
+  description: API pour la gestion des prêts de jeux de société
+  contact:
+    name: Gabin BERNARD
+    email: gabin.bernard@etu.univ-grenoble-alpes.fr
+servers:
+- url: https://localhost:8080/
+paths:
+  /:
+    get:
+      tags:
+      - association
+      summary: Infos de l'association
+      parameters: []
+      responses:
+        "200":
+          description: "Les infos sont retournées"
+          content: 
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Association"
+  /membres/:
+    get:
+      tags:
+      - membres
+      summary: "Récupérer la liste des membres"
+      responses:
+        "200":
+          description: "La liste des membres est retournée"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /membres/{numero_de_telephone}/:
+    get:
+      tags:
+      - membres
+      summary: "Récupérer un membre à partir de son numéro de téléphone"
+      parameters:
+      - name: numero_de_telephone
+        in: path
+        description: Numéro de téléphone
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Le membre est retourné"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Membre"
+  /jeux/:
+    get:
+      tags: 
+      - jeux
+      summary: "Récupérer la liste des jeux"
+      parameters:
+      - $ref: '#/components/parameters/resultLimit'
+      responses: 
+        "200":
+          description: La liste des nom des jeux est retournée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /jeux/{nom}/:
+    get:
+      tags:
+      - jeux
+      summary: "Récupérer un jeu"
+      parameters:
+      - name: nom
+        in: path
+        description: Nom du jeu
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Le jeu est retourné"
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Jeu'
+        "404":
+          description: "Le jeu n'existe pas"
+  /jeux/{nom}/categorie/:
+    get:
+      tags:
+      - jeux
+      - catégories
+      summary: "Récupérer la catégorie du jeu"
+      parameters:
+      - name: nom
+        in: path
+        description: Nom du jeu
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "La catégorie du jeu est retournée"
+          content:
+            application/json:
+              schema:
+                type: string
+        "404":
+          description: "Le jeu n'existe pas"
+  /jeux/{nom}/membre/:
+    get:
+      tags:
+      - jeux
+      - membres
+      summary: "Récupérer le membre qui a emprunté le jeu"
+      parameters:
+      - name: nom
+        in: path
+        description: Nom du jeu
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Le numéro de téléphone du membre qui a emprunté le jeu est retourné"
+          content: 
+            application/json:
+              schema:
+                type: string
+        "404":
+          description: "Le jeu n'existe pas"
+  /categories/:
+    get:
+      tags: 
+      - catégories
+      summary: "Récupérer la liste des catégories"
+      responses: 
+        "200":
+          description: La liste des nom des catégories est retournée
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /categories/{nom}/:
+    get:
+      tags:
+      - catégories
+      summary: "Récupérer une catégorie"
+      parameters:
+      - name: nom
+        in: path
+        description: Nom de la catégorie
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "La catégorie est retournée"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Categorie"
+        "404":
+          description: "La catégorie n'existe pas"
+  /categories/{nom}/jeux/:
+    get:
+      tags:
+      - catégories
+      - jeux
+      summary: "Récupérer les jeux d'une catégorie"
+      parameters:
+      - $ref: '#/components/parameters/resultLimit'
+      - name: nom
+        in: path
+        description: Nom de la catégorie
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "Les jeux de la catégorie sont retournés"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "404":
+          description: "La catégorie n'existe pas"
+components:
+  schemas:
+    Association:
+      type: object
+      properties:
+        nom:
+          type: string
+        addresse:
+          type: string
+    Jeu:
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+        date_achat:
+          type: string
+        etat:
+          type: string
+        disponibilite:
+          type: boolean
+    Categorie:
+      type: object
+      properties:
+        nom:
+          type: string
+        description:
+          type: string
+        nombre_jeux:
+          type: integer
+          format: int32
+          minimum: 0
+    Membre:
+      type: object
+      properties:
+        nom:
+          type: string
+        prenom:
+          type: string
+        numero_de_telephone:
+          type: string
+  parameters:
+    resultLimit:
+      name: limit
+      in: query
+      description: Nombre maximum d'éléments à retourner.
+      required: false
+      schema:
+        type: integer
+        format: int32
+        minimum: 1
+        maximum: 100
+        default: 10
+        

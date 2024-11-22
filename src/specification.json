@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "localhost:3000",
+      "url": "http://localhost:12345",
       "description": "Local development server"
     }
   ],
@@ -104,7 +104,7 @@
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -178,7 +178,7 @@
             "$ref": "#/components/responses/200-SUCCESS-RELATION"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -233,7 +233,7 @@
             "$ref": "#/components/responses/200-SUCCESS-RELATION"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -288,7 +288,7 @@
             "$ref": "#/components/responses/200-SUCCESS-RELATION"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -323,13 +323,129 @@
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
           }
         }
+      }
+    },
+    "/v1/playlists/": {
+      "get": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "Get all playlists",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "Post a playlist",
+        "requestBody": {
+          "$ref": "#/components/requestBodies/playlist"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/playlists/{id}/": {
+      "get": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "Get a playlist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The playlist is returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/playlist"
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
       },
       "put": {
         "tags": [
-          "Tracks",
           "Playlists"
         ],
-        "summary": "Set or edit a track's playlist",
+        "summary": "Edit a playlist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "requestBody": {
+          "$ref": "#/components/requestBodies/playlist"
+        },
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-EDITED"
+          },
+          "400": {
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Playlists"
+        ],
+        "summary": "Delete a playlist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
+          },
+          "404": {
+            "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
+          }
+        }
+      }
+    },
+    "/v1/playlists/{id}/tracks/": {
+      "get": {
+        "tags": [
+          "Playlists",
+          "Tracks"
+        ],
+        "summary": "Get all tracks from a playlist",
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-LIST"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Playlists",
+          "Tracks"
+        ],
+        "summary": "Add a track to a playlist",
         "parameters": [
           {
             "$ref": "#/components/parameters/id"
@@ -340,10 +456,48 @@
         },
         "responses": {
           "200": {
-            "$ref": "#/components/responses/200-SUCCESS-RELATION"
+            "$ref": "#/components/responses/200-SUCCESS-CREATED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
+          }
+        }
+      }
+    },
+    "/v1/playlists/{playlist_id}/tracks/{track_id}": {
+      "delete": {
+        "tags": [
+          "Playlists",
+          "Tracks"
+        ],
+        "summary": "Remove a track from a playlist",
+        "parameters": [
+          {
+            "playlist_id": null,
+            "name": "playlist_id",
+            "in": "path",
+            "description": "Playlist Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "track_id": null,
+            "name": "track_id",
+            "in": "path",
+            "description": "Track Id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/200-SUCCESS-DELETED"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -376,7 +530,7 @@
             "$ref": "#/components/responses/200-SUCCESS-CREATED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           }
         }
       }
@@ -426,7 +580,7 @@
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -500,7 +654,7 @@
             "$ref": "#/components/responses/200-SUCCESS-RELATION"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -555,7 +709,7 @@
             "$ref": "#/components/responses/200-SUCCESS-CREATED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           }
         }
       }
@@ -605,7 +759,7 @@
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -679,7 +833,7 @@
             "$ref": "#/components/responses/200-SUCCESS-CREATED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           }
         }
       }
@@ -729,7 +883,7 @@
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -803,7 +957,7 @@
             "$ref": "#/components/responses/200-SUCCESS-CREATED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           }
         }
       }
@@ -853,7 +1007,7 @@
             "$ref": "#/components/responses/200-SUCCESS-EDITED"
           },
           "400": {
-            "$ref": "#/components/responses/400-ERROR-WRONG-REQUEST"
+            "$ref": "#/components/responses/400-ERROR-BAD-REQUEST"
           },
           "404": {
             "$ref": "#/components/responses/404-ERROR-NOT-FOUND"
@@ -919,18 +1073,42 @@
         }
       },
       "200-SUCCESS-CREATED": {
-        "description": "The resource has been created"
+        "description": "The resource has been created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
       },
       "200-SUCCESS-RELATION": {
         "description": "The relation has been updated"
       },
       "200-SUCCESS-EDITED": {
-        "description": "The resource has been edited"
+        "description": "The resource has been edited",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
       },
       "200-SUCCESS-DELETED": {
         "description": "The resource has been deleted"
       },
-      "400-ERROR-WRONG-REQUEST": {
+      "400-ERROR-BAD-REQUEST": {
         "description": "Wrong request"
       },
       "404-ERROR-NOT-FOUND": {
@@ -954,12 +1132,12 @@
         "description": "A track",
         "required": true,
         "content": {
-          "application/java": {
+          "application/json": {
             "schema": {
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string"
+                  "type": "integer"
                 }
               }
             }
