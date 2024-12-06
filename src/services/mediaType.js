@@ -20,7 +20,7 @@ export function createMediaType(name) {
         INSERT INTO media_types (Name) 
         VALUES (?)
         RETURNING MediaTypeId;
-    `).run(name);
+    `).get(name).MediaTypeId;
 }
 
 export function editMediaType(id, name) {
@@ -29,7 +29,7 @@ export function editMediaType(id, name) {
         SET Name = ?
         WHERE MediaTypeId = ?
         RETURNING MediaTypeId;
-    `).get(name, id);
+    `).get(name, id).MediaTypeId;
 }
 
 export function deleteMediaType(id) {

@@ -20,7 +20,7 @@ export function createArtist(name) {
         INSERT INTO artists (Name) 
         VALUES (?)
         RETURNING ArtistId;
-    `).run(name);
+    `).get(name).ArtistId;
 }
 
 export function editArtist(id, name) {
@@ -29,7 +29,7 @@ export function editArtist(id, name) {
         SET Name = ?
         WHERE ArtistId = ?
         RETURNING ArtistId;
-    `).get(name, id);
+    `).get(name, id).ArtistId;
 }
 
 export function deleteArtist(id) {

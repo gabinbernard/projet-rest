@@ -434,6 +434,11 @@
           "Tracks"
         ],
         "summary": "Get all tracks from a playlist",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/id"
+          }
+        ],
         "responses": {
           "200": {
             "$ref": "#/components/responses/200-SUCCESS-LIST"

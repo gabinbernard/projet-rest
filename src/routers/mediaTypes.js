@@ -48,7 +48,7 @@ mediaTypesRouter.delete("/:id", (req, res) => {
 
     deleteMediaType(req.params.id)
 
-    res.json();
+    res.send();
 })
 
 mediaTypesRouter.get("/:id/tracks", (req, res) => {

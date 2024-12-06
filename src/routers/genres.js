@@ -48,8 +48,7 @@ genresRouter.delete("/:id", (req, res) => {
 
     deleteGenre(req.params.id);
 
-
-    res.json();
+    res.send();
 })
 
 genresRouter.get("/:id/tracks", (req, res) => {

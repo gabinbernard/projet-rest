@@ -20,7 +20,7 @@ export function createGenre(name) {
         INSERT INTO genres (Name) 
         VALUES (?)
         RETURNING GenreId;
-    `).run(name);
+    `).get(name).GenreId;
 }
 
 export function editGenre(id, name) {
@@ -29,7 +29,7 @@ export function editGenre(id, name) {
         SET Name = ?
         WHERE GenreId = ?
         RETURNING GenreId;
-    `).get(name, id);
+    `).get(name, id).GenreId;
 }
 
 export function deleteGenre(id) {

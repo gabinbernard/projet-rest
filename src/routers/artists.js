@@ -48,7 +48,7 @@ artistsRouter.delete("/:id", (req, res) => {
 
     deleteArtist(req.params.id);
 
-    res.json();
+    res.send();
 })
 
 artistsRouter.get("/:id/albums", (req, res) => {

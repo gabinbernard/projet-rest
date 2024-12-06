@@ -20,7 +20,7 @@ export function createAlbum(title) {
         INSERT INTO albums (Title, ArtistId) 
         VALUES (?, 1)
         RETURNING AlbumId;
-    `).run(title);
+    `).get(title).AlbumId;
 }
 
 export function editAlbum(id, title) {
@@ -29,7 +29,7 @@ export function editAlbum(id, title) {
         SET Title = ?
         WHERE AlbumId = ?
         RETURNING AlbumId;
-    `).get(title, id);
+    `).get(title, id).AlbumId;
 }
 
 export function deleteAlbum(id) {
